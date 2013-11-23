@@ -10,13 +10,15 @@ func main() {
     fmt.Println("Your input will be incrementally printed starting with 1.")
 
     var inputNumber int
-    var countToInput int
+    var count int
 
     fmt.Println("Enter desired number.")
     fmt.Scanln(&inputNumber)
 
-    for countToInput != inputNumber {
-        countToInput++
-        fmt.Println(countToInput)
+    for count != inputNumber {
+        count++
+        if count%5 == 0 {
+            fmt.Println(count)
+        }
     }
 }
