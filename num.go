@@ -8,12 +8,20 @@ import (
 
 func main() {
 
-    fmt.Println("Enter the number you want to print.")
-    fmt.Println("Your input will be incrementally printed starting with 1.")
-
     var inputNumber int
     var count int
+    var ageInput int
 
+    fmt.Println("Enter your age. Be honest. Don't fuck with me.")
+    fmt.Scanln(&ageInput)
+
+    if ageInput < 18 {
+       fmt.Println("You shalt not pass.")
+       return
+    }
+
+    fmt.Println("Enter the number you want to print.")
+    fmt.Println("Your input will be incrementally printed starting with 1.")
     fmt.Println("Enter desired number.")
     fmt.Scanln(&inputNumber)
 
