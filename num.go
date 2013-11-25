@@ -12,6 +12,10 @@ func main() {
     var count int
     var ageInput int
 
+
+    for checkLogin() == false {
+    }
+
     fmt.Println("Enter your age. Be honest. Don't fuck with me.")
     fmt.Scanln(&ageInput)
 
@@ -30,8 +34,29 @@ func main() {
         if count%5 == 0 {
 // no longer print to stdout, let's write to /tmp/nondiv.txt instead!
 //            fmt.Println(count)
-        writeFile(count)
+            writeFile(count)
         }
+    }
+}
+
+func checkLogin() bool {
+    var userAccountInput string
+    var userPasswordInput string
+    var userAccountStatic string = "fucknut"
+    var userPasswordStatic string = "nutfuck"
+
+    fmt.Println("Enter your username: ")
+    fmt.Scanln(&userAccountInput)
+
+    fmt.Println("Enter your password: ")
+    fmt.Scanln(&userPasswordInput)
+
+    if userAccountInput == userAccountStatic && userPasswordInput == userPasswordStatic {
+        fmt.Println("Access granted.")
+        return true
+    } else {
+        fmt.Println("Nice try. Now die in a fire, would you?")
+        return false
     }
 }
 
