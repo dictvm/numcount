@@ -6,19 +6,26 @@ import (
     "strconv"
 )
 
+// dirty... fix?
+    var input string
+    var fileName string
+
 func main() {
+
+// based on: http://piratepad.net/XJnL7LdAUx
 
     var inputNumber int
     var count int
     var ageInput int
 
-
     for checkLogin() == false {
     }
 
+// #3
     fmt.Println("Enter your age. Be honest. Don't fuck with me.")
     fmt.Scanln(&ageInput)
 
+// #2
     if ageInput < 18 {
        fmt.Println("You shalt not pass.")
        return
@@ -33,9 +40,18 @@ func main() {
         count++
         if count%5 == 0 {
 // no longer print to stdout, let's write to /tmp/nondiv.txt instead!
+// #1
 //            fmt.Println(count)
             writeFile(count)
         }
+    }
+
+    for input == "" && fileName == "" {
+        fmt.Println("Tell me all of your secrets.")
+        fmt.Scanln(&input)
+        fmt.Println("Alright, which Filename should we save your file to?")
+        fmt.Scanln(&fileName)
+        writeFileWithName()
     }
 }
 
@@ -68,6 +84,23 @@ func writeFile(num int) {
         fmt.Println(err)
     }
     n, err := f.WriteString(strconv.Itoa(num) + "\n")
+    if err != nil {
+        fmt.Println("Error #2: Couldn't write fo file.")
+        fmt.Println(n, err)
+    }
+    f.Close()
+}
+
+func writeFileWithName() {
+    fmt.Println("Writing input to file: ")
+    f, err := os.OpenFile("/tmp/"+fileName, os.O_APPEND | os.O_WRONLY | os.O_CREATE, 0666)
+    if err != nil {
+        fmt.Println("Error #1: Couldn't write to file.")
+        fmt.Println(err)
+    }
+    n, err := f.WriteString(input)
+    fmt.Println("Writing to /tmp/" +fileName)
+    fmt.Println("Done.")
     if err != nil {
         fmt.Println("Error #2: Couldn't write fo file.")
         fmt.Println(n, err)
