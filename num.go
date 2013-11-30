@@ -3,12 +3,9 @@ package main
 import (
     "fmt"
     "os"
+    "bufio"
     "strconv"
 )
-
-// dirty... fix?
-    var input string
-    var fileName string
 
 func main() {
 
@@ -17,15 +14,15 @@ func main() {
     var inputNumber int
     var count int
     var ageInput int
+    var input string
+    var fileName string
 
     for checkLogin() == false {
     }
 
-// #3
     fmt.Println("Enter your age. Be honest. Don't fuck with me.")
     fmt.Scanln(&ageInput)
 
-// #2
     if ageInput < 18 {
        fmt.Println("You shalt not pass.")
        return
@@ -40,19 +37,23 @@ func main() {
         count++
         if count%5 == 0 {
 // no longer print to stdout, let's write to /tmp/nondiv.txt instead!
-// #1
-//            fmt.Println(count)
+//          fmt.Println(count)
             writeFile(count)
         }
     }
 
-    for input == "" && fileName == "" {
+    for input == "" || fileName == "" {
         fmt.Println("Tell me all of your secrets.")
-        fmt.Scanln(&input)
+        scanner := bufio.NewScanner(os.Stdin)
+        scanner.Scan()
+        input = scanner.Text()
+	    if err := scanner.Err(); err != nil {
+	    	fmt.Fprintln(os.Stderr, "reading standard input:", err)
+	    }
         fmt.Println("Alright, which Filename should we save your file to?")
         fmt.Scanln(&fileName)
-        writeFileWithName()
     }
+    writeFileWithName(input, fileName)
 }
 
 func checkLogin() bool {
@@ -77,7 +78,7 @@ func checkLogin() bool {
 }
 
 func writeFile(num int) {
-    fmt.Println("Writing non-divideable numbers to file: ")
+    fmt.Println("Writing non-divideable numbers to file: " +strconv.Itoa(num))
     f, err := os.OpenFile("/tmp/nondiv.txt", os.O_APPEND | os.O_WRONLY | os.O_CREATE, 0666)
     if err != nil {
         fmt.Println("Error #1: Couldn't write to file.")
@@ -91,7 +92,7 @@ func writeFile(num int) {
     f.Close()
 }
 
-func writeFileWithName() {
+func writeFileWithName(input string, fileName string) {
     fmt.Println("Writing input to file: ")
     f, err := os.OpenFile("/tmp/"+fileName, os.O_APPEND | os.O_WRONLY | os.O_CREATE, 0666)
     if err != nil {
@@ -99,7 +100,7 @@ func writeFileWithName() {
         fmt.Println(err)
     }
     n, err := f.WriteString(input)
-    fmt.Println("Writing to /tmp/" +fileName)
+    fmt.Println("Writing to /tmp/"+fileName)
     fmt.Println("Done.")
     if err != nil {
         fmt.Println("Error #2: Couldn't write fo file.")
