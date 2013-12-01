@@ -35,9 +35,9 @@ func main() {
 
     for count != inputNumber {
         count++
-        if count%5 == 0 {
 // no longer print to stdout, let's write to /tmp/nondiv.txt instead!
-//          fmt.Println(count)
+        fmt.Println(count)
+        if count%5 == 0 {
             writeFile(count)
         }
     }
